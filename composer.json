@@ -1,0 +1,21 @@
+{
+    "name": "shulard/hoa-file-benchmark",
+    "description": "Benchmark some operations on the Hoa\\File project",
+    "require": {
+        "hoa/bench": "3.16.01.11",
+        "hoa/file": "0.16.01.11"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../File"
+        }
+    ],
+    "license": "apache2",
+    "authors": [
+        {
+            "name": "Stéphane HULARD",
+            "email": "s.hulard@chstudio.fr"
+        }
+    ]
+}
