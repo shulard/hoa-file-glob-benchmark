@@ -17,6 +17,12 @@ $toBench = function(Finder $finder) use ($argv) {
 };
 $bench = new Hoa\Bench;
 
+if( is_dir($argv[1]) ) {
+    $bench->noglob->start();
+    call_user_func($toBench, new FinderNoGlob);
+    $bench->noglob->stop();
+}
+
 $bench->glob->start();
 call_user_func($toBench, new FinderGlob);
 $bench->glob->stop();
