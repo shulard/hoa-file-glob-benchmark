@@ -9,7 +9,7 @@ use Hoa\Iterator;
  * @copyright  Copyright © 2007-2016 Hoa community
  * @license    New BSD License
  */
-class FinderGlob extends Finder
+class FinderNoGlob extends Finder
 {
     /**
      * Select a directory to scan.

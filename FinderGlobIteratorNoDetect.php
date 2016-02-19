@@ -4,12 +4,12 @@ use Hoa\File\Finder;
 use Hoa\Iterator;
 
 /**
- * This class implement a glob pattern using glob function
+ * This class implement a glob pattern using RegexIterator
  *
  * @copyright  Copyright © 2007-2016 Hoa community
  * @license    New BSD License
  */
-class FinderGlob extends Finder
+class FinderGlobIteratorNoDetect extends Finder
 {
     /**
      * Select a directory to scan.
@@ -22,15 +22,14 @@ class FinderGlob extends Finder
         if (!is_array($path)) {
             $path = [$path];
         }
-
         foreach ($path as $p) {
-            if( 1 === preg_match('/\*|\?|\[([^\]]+)\]|\{([^}]+)\}/', $p) ) {
-                $this->_paths = array_merge(
-                    $this->_paths,
-                    glob($p, GLOB_ONLYDIR|GLOB_BRACE)
-                );
-                var_dump($this->_paths);
-            } else {
+            $iterator = new Iterator\CallbackFilter(
+                new Iterator\Glob(rtrim($p, '/')),
+                function($current) {
+                    return $current->isDir();
+                }
+            );
+            foreach ($iterator as $p => $fileInfo) {
                 $this->_paths[] = $p;
             }
         }

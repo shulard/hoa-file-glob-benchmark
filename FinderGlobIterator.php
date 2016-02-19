@@ -22,15 +22,19 @@ class FinderGlobIterator extends Finder
         if (!is_array($path)) {
             $path = [$path];
         }
-
         foreach ($path as $p) {
-            $iterator = new Iterator\CallbackFilter(
-                new Iterator\Glob($p),
-                function($current) {
-                    return $current->isDir();
+            if( 1 === preg_match('/\*|\?|\[([^\]]+)\]|\{([^}]+)\}/', $p) ) {
+                $iterator = new Iterator\CallbackFilter(
+                    new Iterator\Glob(rtrim($p, '/')),
+                    function($current) {
+                        return $current->isDir();
+                    }
+                );
+                foreach ($iterator as $p => $fileInfo) {
+                    $this->_paths[] = $p;
                 }
-            );
-            foreach ($iterator as $p => $fileInfo) {
+                var_dump($this->_paths);
+            } else {
                 $this->_paths[] = $p;
             }
         }
